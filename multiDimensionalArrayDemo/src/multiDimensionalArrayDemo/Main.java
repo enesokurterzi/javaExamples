@@ -16,7 +16,7 @@ public class Main {
 		sehirler[2][1] = "Şanlıurfa";
 		sehirler[2][2] = "Gaziantep";
 		
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i <= 2; i++) { 
 			for (int j = 0; j <= 2; j++) {
 				System.out.println(sehirler[i][j]);
 			}
