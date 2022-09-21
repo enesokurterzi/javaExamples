@@ -17,6 +17,7 @@ public class Main {
 		System.out.println(mesaj.indexOf('a'));
 		System.out.println(mesaj.lastIndexOf('e'));
 
+
 	}
 
 }
