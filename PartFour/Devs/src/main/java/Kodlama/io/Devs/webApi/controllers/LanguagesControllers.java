@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Kodlama.io.Devs.business.abstracts.LanguageService;
-import Kodlama.io.Devs.entities.concretes.Language;
+import Kodlama.io.Devs.business.requests.langugage.CreateLanguageRequest;
+import Kodlama.io.Devs.business.requests.langugage.DeleteLanguageRequest;
+import Kodlama.io.Devs.business.requests.langugage.UpdateLanguageRequest;
+import Kodlama.io.Devs.business.responses.language.GetAllLanguagesResponse;
+import Kodlama.io.Devs.business.responses.language.GetByIdLanguagesResponse;
 
 @RestController
 @RequestMapping("/api/languages")
@@ -24,30 +27,29 @@ public class LanguagesControllers {
 		this.languageService = languageService;
 	}
 	
-	@PostMapping("/add")
-	public void add(Language language) throws Exception {
-		languageService.create(language);
-	}
-	
-	@DeleteMapping("/delete")
-	public void delete(int id) {	
-		languageService.delete(id);
-	}
-	
-	@PutMapping("/update")
-	public void update(Language language) throws Exception {
-		languageService.update(language);
-	}
-	
-	@GetMapping("/getall")
-	public List<Language> getAll(){
+	@GetMapping("/getAll")
+	public List<GetAllLanguagesResponse> getAll() {
 		return languageService.getAll();
 	}
 	
-	@GetMapping("/getbyid")
-	public Language getById(@RequestParam int id){
-		return languageService.findById(id);
+	@GetMapping("/{id}")
+	public GetByIdLanguagesResponse getById(int id) {
+		return languageService.getById(id);
 	}
 	
+	@PostMapping("/add")
+	public void add(CreateLanguageRequest createLanguageRequest) {
+		this.languageService.add(createLanguageRequest);
+	}
+	
+	@DeleteMapping("/delete")
+	public void delete(DeleteLanguageRequest deleteLanguageRequest) {
+		this.languageService.delete(deleteLanguageRequest);
+	}
+	
+	@PutMapping("/update")
+	public void update(int id, UpdateLanguageRequest updateLanguageRequest) {
+		this.languageService.update(id, updateLanguageRequest);
+	}
 
 }

@@ -1,11 +1,17 @@
 package Kodlama.io.Devs.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Kodlama.io.Devs.business.abstracts.LanguageService;
+import Kodlama.io.Devs.business.requests.langugage.CreateLanguageRequest;
+import Kodlama.io.Devs.business.requests.langugage.DeleteLanguageRequest;
+import Kodlama.io.Devs.business.requests.langugage.UpdateLanguageRequest;
+import Kodlama.io.Devs.business.responses.language.GetAllLanguagesResponse;
+import Kodlama.io.Devs.business.responses.language.GetByIdLanguagesResponse;
 import Kodlama.io.Devs.dataAccess.abstracts.LanguageRepository;
 import Kodlama.io.Devs.entities.concretes.Language;
 
@@ -19,49 +25,46 @@ public class LanguageManager implements LanguageService {
 	}
 
 	@Override
-	public List<Language> getAll() {
-		return languageRepository.getAll();
-	}
-
-	@Override
-	public void create(Language language) throws Exception {
-		if(language.getName().length() != 0) {
-            for(Language Languages : languageRepository.getAll()) {
-                if(Languages.getName().equalsIgnoreCase(language.getName())) {
-                    throw new Exception("Aynı isimde 2 adet programlama dili olamaz.");
-                }
-            }
-            languageRepository.create(language);
-        } else {
-            throw new Exception("Programlama dili boş geçilemez.");
-        }
+	public List<GetAllLanguagesResponse> getAll() {
+		List<Language> languages = languageRepository.findAll();
+		List<GetAllLanguagesResponse> languageResponse = new ArrayList<GetAllLanguagesResponse>();
 		
-	}
-
-	@Override
-	public void update(Language language) throws Exception {
-		if(language.getName().length() != 0) {
-            for(Language Languages : languageRepository.getAll()) {
-                if(Languages.getName().equalsIgnoreCase(language.getName())) {
-                    throw new Exception("Aynı isimde 2 adet programlama dili olamaz.");
-                }
-            }
-            languageRepository.update(language);
-        } else {
-            throw new Exception("Programlama dili boş geçilemez.");
-        }
+		for(Language language: languages) {
+			GetAllLanguagesResponse responseItem = new GetAllLanguagesResponse();
+			responseItem.setId(language.getId());
+			responseItem.setName(language.getName());
+			languageResponse.add(responseItem);
+		}
 		
+		return languageResponse;
 	}
 
 	@Override
-	public void delete(int id) {
-		languageRepository.delete(id);
-		
+	public GetByIdLanguagesResponse getById(int id) {
+		Language language = languageRepository.findById(id).get();
+		GetByIdLanguagesResponse response = new GetByIdLanguagesResponse();
+		response.setName(language.getName());
+		return response;
 	}
 
 	@Override
-	public Language findById(int id) {
-		return languageRepository.findById(id);
+	public void add(CreateLanguageRequest createLanguageRequest) {
+		Language language = new Language();
+		language.setName(createLanguageRequest.getName());
+		this.languageRepository.save(language);
 	}
-	
+
+	@Override
+	public void delete(DeleteLanguageRequest deleteLanguageRequest) {
+		languageRepository.deleteById(deleteLanguageRequest.getId());		
+	}
+
+	@Override
+	public void update(int id, UpdateLanguageRequest updatelanguageRequest) {
+		if (!updatelanguageRequest.getName().isEmpty()) {
+			Language language = new Language();
+			language.setName(updatelanguageRequest.getName());
+			languageRepository.save(language);
+		}		
+	}
 }
