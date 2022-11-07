@@ -51,7 +51,14 @@ public class LanguageManager implements LanguageService {
 	public void add(CreateLanguageRequest createLanguageRequest) {
 		Language language = new Language();
 		language.setName(createLanguageRequest.getName());
-		this.languageRepository.save(language);
+		
+		if (!isLanguageEmpty(language) && !isLanguageNameExist(language)) {
+			this.languageRepository.save(language);
+		} else {
+			System.err.println("Duplicate or blank data cannot be entered.");
+		}
+		
+		
 	}
 
 	@Override
@@ -62,9 +69,23 @@ public class LanguageManager implements LanguageService {
 	@Override
 	public void update(int id, UpdateLanguageRequest updatelanguageRequest) {
 		if (!updatelanguageRequest.getName().isEmpty()) {
-			Language language = new Language();
+			Language language = languageRepository.findById(id).get();
 			language.setName(updatelanguageRequest.getName());
 			languageRepository.save(language);
 		}		
 	}
+	
+	private boolean isLanguageNameExist (Language language){
+        for(Language languageall : languageRepository.findAll()){
+            if(languageall.getName().equalsIgnoreCase(language.getName()))
+                return true;
+        }
+        return false;
+    }
+    private  boolean isLanguageEmpty(Language language){
+        return language.getName().isEmpty() || language.getName().isBlank();
+    }
+	
+	
+	
 }

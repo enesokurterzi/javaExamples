@@ -18,7 +18,7 @@ import Kodlama.io.Devs.business.responses.language.GetAllLanguagesResponse;
 import Kodlama.io.Devs.business.responses.language.GetByIdLanguagesResponse;
 
 @RestController
-@RequestMapping("/api/languages")
+@RequestMapping("/api/language")
 public class LanguagesControllers {
 	private LanguageService languageService;
 
@@ -27,28 +27,28 @@ public class LanguagesControllers {
 		this.languageService = languageService;
 	}
 	
-	@GetMapping("/getAll")
+	@GetMapping("/getall")
 	public List<GetAllLanguagesResponse> getAll() {
 		return languageService.getAll();
 	}
 	
 	@GetMapping("/{id}")
-	public GetByIdLanguagesResponse getById(int id) {
+	public GetByIdLanguagesResponse getById(int id){
 		return languageService.getById(id);
 	}
 	
 	@PostMapping("/add")
-	public void add(CreateLanguageRequest createLanguageRequest) {
+	public void add(CreateLanguageRequest createLanguageRequest){
 		this.languageService.add(createLanguageRequest);
 	}
 	
 	@DeleteMapping("/delete")
-	public void delete(DeleteLanguageRequest deleteLanguageRequest) {
+	public void delete(DeleteLanguageRequest deleteLanguageRequest){
 		this.languageService.delete(deleteLanguageRequest);
 	}
 	
 	@PutMapping("/update")
-	public void update(int id, UpdateLanguageRequest updateLanguageRequest) {
+	public void update(int id, UpdateLanguageRequest updateLanguageRequest){
 		this.languageService.update(id, updateLanguageRequest);
 	}
 

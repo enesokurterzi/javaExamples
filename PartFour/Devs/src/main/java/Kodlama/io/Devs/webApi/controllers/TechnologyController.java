@@ -3,6 +3,10 @@ package Kodlama.io.Devs.webApi.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,21 +26,24 @@ public class TechnologyController {
 		this.technologyService = technologyService;
 	}
 	
-	
+	@GetMapping("/getall")
 	public List<GetAllTechnologiesResponse> getAll() {
 		return technologyService.getAll();
 	}
 	
+	@PostMapping("/add")
 	public void add(CreateTechnologyRequest createTechnologyRequest) {
 		this.technologyService.add(createTechnologyRequest);
 	}
 	
+	@DeleteMapping("/delete")
 	public void deleteById(DeleteTechnologyRequest deleteTechnologyRequest) {
 		this.technologyService.delete(deleteTechnologyRequest);
 	}
 	
-	public void updateById(int id, UpdateTechnologyRequest updateTechnologyRequest) {
-		this.technologyService.update(id, updateTechnologyRequest);
+	@PutMapping("update")
+	public void updateById(int id, int languageId, UpdateTechnologyRequest updateTechnologyRequest) {
+		this.technologyService.update(id, languageId, updateTechnologyRequest);
 	}
 	
 }

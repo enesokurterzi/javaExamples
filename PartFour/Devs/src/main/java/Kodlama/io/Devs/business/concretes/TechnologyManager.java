@@ -60,9 +60,9 @@ public class TechnologyManager implements TechnologyService {
 	}
 
 	@Override
-	public void update(int id, UpdateTechnologyRequest updateTechnologyRequest) {
+	public void update(int id, int languageId, UpdateTechnologyRequest updateTechnologyRequest) {
 		Technology technology = technologyRepository.findById(id).get();
-		Language language = languageRepository.findById(updateTechnologyRequest.getLanguageId()).get();
+		Language language = languageRepository.findById(languageId).get();
 		
 		technology.setName(updateTechnologyRequest.getName());
 		technology.setLanguage(language);

@@ -12,5 +12,5 @@ public interface TechnologyService {
 	
 	void add(CreateTechnologyRequest createTechnologyRequest);
 	void delete(DeleteTechnologyRequest deleteTechnologyRequest);
-	void update(int id, UpdateTechnologyRequest updateTechnologyRequest);
+	void update(int id, int languageId, UpdateTechnologyRequest updateTechnologyRequest);
 }
